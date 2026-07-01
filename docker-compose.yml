@@ -1,0 +1,28 @@
+# Local full-stack helper: `docker compose up scanner` brings the scanner
+# up on the same port the native Phase 2 process uses (4000). The FastAPI
+# backend and Next.js frontend intentionally run natively (see Phase 9
+# decision in docs/guide.md) — only the scanner ships as a container
+# because Chromium's shared libraries are the only real deploy risk.
+#
+# Backend reaches the scanner at http://scanner:4000 when it too is in
+# the same compose network; from the host, it's http://localhost:4000.
+
+services:
+  scanner:
+    build:
+      context: ./services/scanner
+    image: scanner-service:local
+    container_name: scanner-service
+    environment:
+      # Render auto-injects PORT at deploy time; locally we pin it so the
+      # compose port mapping below is meaningful.
+      PORT: "4000"
+    ports:
+      - "4000:4000"
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"require('http').get('http://127.0.0.1:4000/healthz',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    restart: unless-stopped
