@@ -1,0 +1,10 @@
+motor
+pymongo
+python-dotenv
+pydantic
+pytest
+pytest-asyncio
+google-genai
+httpx
+fastapi
+uvicorn[standard]

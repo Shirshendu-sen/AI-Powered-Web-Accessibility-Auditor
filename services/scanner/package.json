@@ -1,0 +1,21 @@
+{
+  "name": "scanner",
+  "version": "1.0.0",
+  "description": "Accessibility scanner worker: Playwright + axe-core.",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node src/server.js",
+    "start": "node src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "playwright": "^1.61.1"
+  }
+}
